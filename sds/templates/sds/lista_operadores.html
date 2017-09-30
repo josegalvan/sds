@@ -1,0 +1,81 @@
+ 
+{% extends 'sds/base.html' %}
+
+{% block content %}
+
+
+
+<div class="text-primary"> <h5> LISTA DE OPERADORES </h5></div>
+
+{% if consulta %}
+    <div class="row">
+            <div class="col-6">
+  
+
+
+                     <div class="table-responsive">
+                  
+                        <table  class="table table-sm thead-default table-hover table-bordered table-inverse ">
+                        	<tr>
+                        		<th>id</th>
+                        		<th> Ap paterno</th>
+                        		<th> Ap materno </th>
+                        		<th> Nombre </th> 
+                                <th> Status Actual </th>
+                                
+                        	</tr>
+
+                        	{% for operador  in consulta %}
+                        	<tr id="tclean" >
+                            	<td><a href="/sds/modifica_operador/{{ operador.id }}/"> {{ operador.id }} </a></td>
+                            	<td> {{ operador.ap_paterno }}</td>
+                            	<td>{{ operador.ap_materno }}</td>
+                            	<td>{{operador.nombre}}</td>
+                                <td>{{operador.descripcion}}</td>
+                                
+                            </tr>
+                        	{% endfor %}
+                        </table>
+                    </div>
+           </div>
+
+           <div class="col-6">
+                
+                    <a href="/sds/crea_operador" type="button" class="btn btn-primary">
+                        <i class="fa fa-plus-circle" aria-hidden="false"> Agregar</i>
+
+                        
+                    </a>
+                    <br><br>
+                    <div class="inline">
+                        <div class="input-group">
+                            
+                              <input id="busca_op_input" type="text" class="form-control" placeholder="Nombre a buscar..." aria-describedby="basic-addon1"/>
+                                <div >   </div>
+                                <a id="busca_op" href="" type="button" class="btn btn-primary">              
+                                <i class="fa fa-search" aria-hidden="true">  </i>
+                                </a>
+                                
+                        </div>
+
+        
+
+                    </div>
+                    <br>
+                    <div id="tot" class="alert alert-info" role="alert">
+                      
+                    </div>                    
+             </div>       
+           
+    </div>
+
+
+           
+        
+{% else %}
+	    
+    
+
+	
+{% endif %}
+{% endblock %}

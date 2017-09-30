@@ -1,0 +1,68 @@
+ 
+{% extends 'sds/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<style>
+.table-condensed{
+  font-size: 11px;
+}
+</style>
+
+<div class="text-primary"> <h5> EVENTOS </h5></div>
+
+{% if consulta %}
+    <div class="row">
+            <div class="col-8">
+  
+
+
+                     <div class="table-responsive">
+                  
+                        <table  class="table table-sm thead-default table-hover  table-condensed">
+                        	<tr>
+                        		<th>id</th>
+                        		<th> Operador</th>
+                        		<th> Status </th>
+                        		<th> Fecha Inicial </th> 
+                                <th> Fecha Final </th>
+                                
+                        	</tr>
+
+                        	
+                        </table>
+                    </div>
+           </div>
+
+           <div class="col-4">
+                
+                    <a href="/sds/crea_operador_evento" type="button" class="btn btn-primary">
+                        <i class="fa fa-plus-circle" aria-hidden="false"> Agregar</i>
+
+                        
+                    </a><br>
+                    {% crispy eventofiltro_form %}
+                      
+                    <br>
+                    <div id="tot" class="alert alert-info" role="alert">
+                      
+                    </div>      
+
+                    
+
+
+
+             </div>       
+           
+    </div>
+
+
+           
+        
+{% else %}
+	    
+    
+
+	
+{% endif %}
+{% endblock %}

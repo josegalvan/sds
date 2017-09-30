@@ -1,0 +1,108 @@
+{% extends 'sds/base.html' %}
+{% load crispy_forms_tags %}
+
+
+
+{% block content %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+<script>
+
+  
+
+
+
+$(document).ready(function() {
+       
+  window.addEventListener("beforeunload", function (e) {
+    var confirmationMessage = "\o/";
+
+    e.returnValue = confirmationMessage;     // Gecko, Trident, Chrome 34+
+    return confirmationMessage; 
+
+  //alert("Alerta sobre uracan")             // Gecko, WebKit, Chrome <34
+  });
+
+
+  //$('#datepicker').click(function(event){
+//alert("alerta cuate");
+  //});
+
+  $( function() {
+
+   // $("#datepicker").datepicker( $.datepicker.regional[ "es" ] );
+   // $( "#datepicker" ).datepicker({altFormat: "dd-mm-yy hh:mm"});
+    //$var altFormat = $( ".selector" ).datepicker( "option", "altFormat" );
+    //$( "#datepicker" ).datepicker( "option", "altFormat", "dd-mm-yy hh:mm" );
+    //$( "#format" ).on( "change", function() {
+
+//$( "#datepicker" ).datepicker( "option", "dateFormat", $( this ).val() );
+    //});
+      jQuery('#datetimepicker').datetimepicker();
+
+      jQuery.datetimepicker.setLocale('es');
+
+      jQuery('#datetimepicker1').datetimepicker({
+       i18n:{
+        de:{
+         months:[
+          'Enero','Febrero','Marzo','Abril',
+          'Mayo','Junio','Julio','Agosto',
+          'Septiembre','Octubre','Noviembre','Diciembre',
+         ],
+         dayOfWeek:[
+          "Domingo", "Lunes", "Martes", "Miercoles", 
+          "Jueves", "Viernes", "Sabado",
+         ]
+        }
+       },
+       timepicker:true,
+       format:'d.m.Y H:i'
+      });
+
+
+
+
+  } );
+ 
+});
+
+</script>
+
+
+
+<div class="row">
+                      
+    <div class="col-8">
+
+      <div class="card card-header  text-center"><h4>  CREANDO OPERADOR</h4></div>
+  
+
+    	<form action="/sds/crea_operador/" method="post">
+    				
+    					{% csrf_token %}
+    					{% crispy form %}    					
+    				
+    				<br>
+    				<input class="btn btn-primary" type="submit" value="Grabar" />
+    				<a href="/sds/lista_operadores" class = "btn btn-primary btn-sm"> Lista operadores</a>
+
+		    </form>
+        
+    </div>
+    <div class="col-4">
+
+
+    </div>
+    
+</div>
+
+{% endblock %}
+	
+ 

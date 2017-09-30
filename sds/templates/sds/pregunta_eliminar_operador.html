@@ -1,0 +1,14 @@
+{% extends 'sds/base.html' %}
+
+{% block content %}
+
+<div class="alert alert-warning" role="alert">
+<i class="fa fa-warning" aria-hidden="false">
+  <strong>  Advertencia ! </strong> Esta a punto de eliminar este operador de la base de datos, esta accion tambien eliminara todo su historial, desea continuar ?
+  </i>
+</div>
+
+<a href="/sds/elimina_operador/{{ id }}/" type="button" class="btn btn-outline-primary"> Si </a>
+<a href="/sds/lista_operadores/" type="button" class="btn btn-outline-primary"> No </a>
+
+{% endblock %}

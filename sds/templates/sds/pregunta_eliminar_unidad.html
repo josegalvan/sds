@@ -1,0 +1,12 @@
+% extends 'sds/base.html' %}
+
+{% block content %}
+
+<div class="alert alert-warning" role="alert">
+  <strong> Advertencia ! </strong> Esta a punto de eliminar esta unidad de la base de datos, esta accion tambien eliminara todo su historial, desea continuar ?
+</div>
+
+<a href="/sds/elimina_unidad/{{ id }}/" type="button" class="btn btn-outline-primary"> Si </a>
+<a href="/sds/lista_unidades/" type="button" class="btn btn-outline-primary"> No </a>
+
+{% endblock %}

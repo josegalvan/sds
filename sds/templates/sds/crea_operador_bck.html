@@ -1,0 +1,41 @@
+{% extends 'sds/base.html' %}
+{% load crispy_forms_tags %}
+{% crispy operador_form %}
+
+{% block content %}
+
+<div class="card">
+  <div class="card-header">
+   <H4> CREA OPERADOR</H4>
+  </div>
+  <div class="card-block">
+    
+    <p class="card text-center">
+
+    	<form action="sds/crea_operador/" method="post">
+    				<div class="form-inline">
+    					{% csrf_token %}
+    					{{ form | crispy }}
+    					
+    				</div>
+    				<br>
+    				<input class="btn btn-primary" type="submit" value="Grabar" />
+    				<a href="sds/lista_operadores" class = "btn btn-primary"> Lista operadores</a>
+		</form>
+
+
+    </p>
+   
+  </div>
+</div>
+
+
+		
+      			
+      		
+			
+		
+		
+{% endblock %}
+	
+ 

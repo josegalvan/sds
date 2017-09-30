@@ -1,0 +1,56 @@
+{% extends 'sds/base.html' %}
+
+{% block content %}
+
+<div class="text-primary"><h3> LISTA DE UNIDADES </h3></div>
+
+{% if consulta %}
+    <div class="row">
+            <div class="col-8">
+  
+
+
+                     <div class="table-responsive">
+                  
+                        <table class="table thead-inverse table-sm table-hover ">
+                        	<tr>
+                                <th> id </th>
+                        		<th> Tipo </th>
+                        		<th> Numero control </th>
+                        		<th>Placas</th> 
+                                <th></th>
+                           	</tr>
+
+                        	{% for unidad  in consulta %}
+                        	<tr>
+                            	<td><a href="/sds/modifica_unidad/{{ unidad.id }}/"> {{ unidad.id }} </a></td>
+                                <td> {{ unidad.id_tipounidad }}</td>
+                            	<td>{{ unidad.numero_tractor }}</td>
+                            	<td> {{unidad.placas}}</td>
+                                <td><a href="/sds/pregunta_eliminar_unidad/{{ unidad.id }}/" type="button" class="btn btn-outline-danger btn-sm">Eliminar</a></td>
+                            </tr>
+                        	{% endfor %}
+                        </table>
+                    </div>
+           </div>
+
+           <div class="col-4">
+                <a href="sds/crea_unidad" type="button" class="btn btn-outline-primary">
+                    <i class="fa fa-plus" aria-hidden="true">Agregar</i>
+
+                    
+                </a>
+        
+
+           </div>
+    </div>
+
+
+           
+        
+{% else %}
+	
+    <p> No se encontraron operadores, carahyooo.</p>
+	
+{% endif %}
+{% endblock %}

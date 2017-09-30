@@ -1,0 +1,27 @@
+{% extends 'sds/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="row">
+                      
+    <div class="col-8">
+        <div class="card card-header text-center"><h4> MODIFICANDO UNIDAD </h4></div>
+    	<form action="" method="post">
+    				
+    					{% csrf_token %}
+    					{% crispy form %}    					
+    				
+    				<br>
+    				<input class="btn btn-primary" type="submit" value="Grabar" />
+    				<a href="sds/lista_unidades" class = "btn btn-primary"> Lista de unidades</a>
+
+		    </form>
+        
+    </div>
+    <div class="col-4">
+    </div>
+    
+</div>
+
+{% endblock %}

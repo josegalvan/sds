@@ -1,0 +1,30 @@
+{% extends 'sds/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="row">
+                      
+    <div class="col-8">
+        <div class="card card-header text-center">
+            <h4> CREANDO TIPO DE UNIDAD</h4>
+        </div>
+
+    	<form action="sds/crea_tipodeunidad/" method="post">
+    				
+    					{% csrf_token %}
+    					{% crispy form %}    					
+    				
+    				<br>
+    				<input class="btn btn-primary" type="submit" value="Grabar" />
+    				<a href="sds/lista_tipodeunidad" class = "btn btn-primary"> Lista Tipos de unidad</a>
+        </form>
+        
+    </div>
+    
+    <div class="col-4">
+    </div>
+    
+</div>
+
+{% endblock %}

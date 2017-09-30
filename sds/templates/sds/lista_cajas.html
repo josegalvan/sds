@@ -1,0 +1,60 @@
+{% extends 'sds/base.html' %}
+
+{% block content %}
+
+<div class="text-primary"><h3> LISTA DE CAJAS </h3></div>
+
+{% if consulta %}
+    <div class="row">
+            <div class="col-8">
+  
+
+
+                     <div class="table-responsive">
+                  
+                        <table class="table thead-inverse table-sm table-hover ">
+                        	<tr>
+                                <th> id </th>
+                        		<th> Numero Caja</th>
+                        		<th> Serie </th>
+                        		<th> Fabricante </th> 
+                                <th> Anio Fabricacion </th>
+                                <th> Capacidad </th>
+                                <th></th>
+                           	</tr>
+
+                        	{% for caja  in consulta %}
+                        	<tr>
+                            	<td><a href="/sds/modifica_caja/{{ caja.id }}/"> {{ caja.id }} </a></td>
+                                <td> {{ caja.trl_num }}</td>
+                            	<td>{{ caja.serial }}</td>
+                            	<td>{{ caja.id_faricante }}</td>
+                                <td> {{caja.anio_Fab}}</td>
+                                <td> {{ caja.id_capacidad }}</td>
+                                <td><a href="/sds/pregunta_eliminar_caja/{{ caja.id }}/" type="button" class="btn btn-outline-danger btn-sm">Eliminar</a></td>
+                            </tr>
+                        	{% endfor %}
+                        </table>
+                    </div>
+           </div>
+
+           <div class="col-4">
+                <a href="sds/crea_caja" type="button" class="btn btn-outline-primary">
+                    <i class="fa fa-plus" aria-hidden="true">Agregar</i>
+
+                    
+                </a>
+        
+
+           </div>
+    </div>
+
+
+           
+        
+{% else %}
+	
+    <p> No se encontraron operadores, carahyooo.</p>
+	
+{% endif %}
+{% endblock %}

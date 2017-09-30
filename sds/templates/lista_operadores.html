@@ -1,0 +1,13 @@
+{% if lista_operadores %}
+
+
+    <ul>
+    {% for operador  in lista_operadores %}
+        <li><a href="/sds/{{ operador.id }}/">{{ operador.ap_paterno }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+	{{ lista_operadores }}
+    <p> No se encontraron operadores, carahy.</p>
+	}
+{% endif %}

@@ -1,0 +1,34 @@
+{% extends 'sds/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="row">
+                  
+    <div class="col-8">	
+
+    	<div class="card card-header text-center"><h4> MODIFICANDO OPERADOR</h4></div>
+    
+    	<form action="/sds/modifica_operador/{{id_op}}/" method="post">
+    				
+    					{% csrf_token %}
+    					{% crispy form %} 					
+    				
+    				<br>
+    				<input class="btn btn-primary" type="submit" value="Grabar" />
+
+
+		</form>
+		
+		
+        
+    </div>
+    <div class="col-4">
+    <a href="/sds/lista_operadores" class = "btn btn-primary btn-sm "><i class="fa fa-list" aria-hidden="true">
+ Listado</i></a> <a href="/sds/pregunta_eliminar_operador/{{ id_op }}" type="button" class="btn btn-danger btn-sm "><i class="fa fa-trash" aria-hidden="false"> Eliminar</i></a>
+    </div>
+    
+</div>
+{% endblock %}
+
+		
