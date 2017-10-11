@@ -54,8 +54,20 @@
              })
 
             $('#busca_op_eventos').click(function(event){
-               alert("hola");
-                event.preventDefault();
+
+              //id_operador = $('#id_operador').val();
+              //id_status =  $('#id_status').val();
+               //alert("hola quiko");
+               //if (id_operador =! '(Todos)' && id_status =!'(Todos)') { 
+               // alert(" Debe elegir un valor para operador o bien para status ( al menos uno de ellos) !");
+                //hayerror = 1;
+                        //} 
+              //event.preventDefault();
+                   
+
+                alert("entra aqui");
+
+
                 $.ajax({
                         url: '/sds/busca_evento',
                         type: 'GET',
@@ -69,7 +81,7 @@
                             if (data.length==0){
                                 alert("No se encontraron coincidencias !")
                             };
-                            tableData += "<tr><th>id</th><th>Operador</th><th>Status</th><th>Inicio el </th><th>Termina el</th></tr>"; // Dibuja encab
+                            tableData += "<tr><th>id_evento</th><th>Nombre_Operador</th><th>Status</th><th>Inicio el </th><th>Termina el</th></tr>"; // Dibuja encab
                             //Ajax nos retorna en data un arreglo de arreglos..asi
                             // que primeramente "each(data....)" hace referecia a 
                             // cada arreglo dentro del arreglo y "value" nos trae

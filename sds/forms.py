@@ -139,7 +139,7 @@ class EventoFiltroForm(forms.Form):
 		super(EventoFiltroForm, self).__init__(*args, **kwargs)
 		self.helper = FormHelper()
 		self.helper.form_id = 'id-eventoFiltroForm'
-		self.helper.form_class = 'blueForms'
+		self.helper.form_class = 'blueform'
 		self.helper.form_method = 'post'
 		self.helper.form_action = 'submit_survey'
 		self.helper.layout = Layout(
@@ -154,6 +154,8 @@ class EventoFiltroForm(forms.Form):
                                <a id="busca_op_eventos" href="" type="button" class="btn btn-primary">              
                                 <i class="fa fa-search" aria-hidden="true">  Buscar eventos </i>
                                 </a>
+                                
+                                
                                 
                         </div>"""
 							),

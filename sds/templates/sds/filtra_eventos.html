@@ -9,20 +9,43 @@
 }
 </style>
 
-<div class="text-primary"> <h5> EVENTOS </h5></div>
+<div class="text-primary"> <h2> EVENTOS </h2></div>
+<hr>
 
 {% if consulta %}
     <div class="row">
+        <div class="col-4">
+
+                             
+                    
+                    {% crispy eventofiltro_form %}
+                      
+                    <br>
+
+                          
+
+                    
+            
+
+
+        </div>       
+        
+   
             <div class="col-8">
   
-
-
+                    <div align="right">
+                        <a  href="/sds/crea_operador_evento" type="button" class="btn btn-primary">
+                                    <i class="fa fa-plus-circle" aria-hidden="false" style="align:right;"> Agregar</i>
+                                    
+                            
+                        </a><br><br>
+                    </div>
                      <div class="table-responsive">
                   
                         <table  class="table table-sm thead-default table-hover  table-condensed">
                         	<tr>
-                        		<th>id</th>
-                        		<th> Operador</th>
+                        		<th>id_evento</th>
+                        		<th> Nombre_Operador</th>
                         		<th> Status </th>
                         		<th> Fecha Inicial </th> 
                                 <th> Fecha Final </th>
@@ -31,28 +54,13 @@
 
                         	
                         </table>
+                        <div id="tot" class="alert alert-info" role="alert">
+                      
+                    </div>
                     </div>
            </div>
 
-           <div class="col-4">
-                
-                    <a href="/sds/crea_operador_evento" type="button" class="btn btn-primary">
-                        <i class="fa fa-plus-circle" aria-hidden="false"> Agregar</i>
-
-                        
-                    </a><br>
-                    {% crispy eventofiltro_form %}
-                      
-                    <br>
-                    <div id="tot" class="alert alert-info" role="alert">
-                      
-                    </div>      
-
-                    
-
-
-
-             </div>       
+           
            
     </div>
 

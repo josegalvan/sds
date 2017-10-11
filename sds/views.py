@@ -597,7 +597,7 @@ def datetime_handler(x):
     raise TypeError("Unknown type")
 	
 def busca_evento(request):
-
+	print("aaqui entro")
 
 	pdb.set_trace()
 	
@@ -606,7 +606,7 @@ def busca_evento(request):
 	fecha_inicial = formatea_fecha(request.GET.get('fecha_inicial',None))
 	fecha_final = formatea_fecha(request.GET.get('fecha_final',None))
 	comentario_extendido = request.GET.get('comentario_extendido',None)
-
+	print ("valores de entrada:")
 	print (operador)
 	print (status)
 	print (fecha_inicial)
@@ -619,24 +619,31 @@ def busca_evento(request):
 
 		
 		
-		com_ext ="'%"+comentario_extendido.strip()+"%'"
+		com_ext =comentario_extendido.strip()
 
 		cursor=connection.cursor()
+
+		# no, no, no
+		if(operador is '' and status is '' and comentario_extendido is ''):
+
+			print ("no, no no.")
+
+			l="Opcion invalida !"
 
 		# no, no , si
 		
 		if(operador is '' and status is '' and comentario_extendido is not ''):
-			
-			cursor.execute("SELECT oe.id,o.nombre,o.ap_paterno,o.ap_materno,s.descripcion,oe.fecha_inicio,oe.Fecha_Terminal,oe.Comentario_extendido FROM sds_operadorevento oe INNER JOIN sds_statusdeoperador s ON (oe.id_status_id=s.id) INNER JOIN sds_operador o on (oe.id_operador_id=o.id) WHERE oe.comentario_extendido like "+com_ext+" and oe.fecha_inicio >=%s and oe.fecha_inicio<=%s;",(fecha_inicial,fecha_final))
+
+			cursor.execute("SELECT oe.id,o.nombre,o.ap_paterno,o.ap_materno,s.descripcion,oe.fecha_inicio,oe.Fecha_Terminal,oe.Comentario_extendido FROM sds_operadorevento oe INNER JOIN sds_statusdeoperador s ON (oe.id_status_id=s.id) INNER JOIN sds_operador o on (oe.id_operador_id=o.id) WHERE oe.comentario_extendido like %s and oe.fecha_inicio >=%s and oe.fecha_inicio<=%s;",("%"+com_ext+"%",fecha_inicial,fecha_final))
 		
 		# no, si, no			
 		if(operador is '' and status is not '' and comentario_extendido is ''):
 
-			cursor.execute("SELECT oe.id,o.nombre,o.ap_paterno,o.ap_materno,s.descripcion,oe.fecha_inicio,oe.Fecha_Terminal,oe.Comentario_extendido FROM sds_operadorevento oe INNER JOIN sds_statusdeoperador s ON (oe.id_status_id=s.id) INNER JOIN sds_operador o on (oe.id_operador_id=o.id) WHERE oe.id_status_id="+status+" and oe.fecha_inicio >=%s and oe.fecha_inicio<=%s;",(fecha_inicial,fecha_final))
+			cursor.execute("SELECT oe.id,o.nombre,o.ap_paterno,o.ap_materno,s.descripcion,oe.fecha_inicio,oe.Fecha_Terminal,oe.Comentario_extendido FROM sds_operadorevento oe INNER JOIN sds_statusdeoperador s ON (oe.id_status_id=s.id) INNER JOIN sds_operador o on (oe.id_operador_id=o.id) WHERE oe.id_status_id=%s and oe.fecha_inicio >=%s and oe.fecha_inicio<=%s;",(status,fecha_inicial,fecha_final))
 		# no, si , si
 		if(operador is '' and status is not '' and comentario_extendido is not ''):
 	
-			cursor.execute("SELECT oe.id,o.nombre,o.ap_paterno,o.ap_materno,s.descripcion,oe.fecha_inicio,oe.Fecha_Terminal,oe.Comentario_extendido FROM sds_operadorevento oe INNER JOIN sds_statusdeoperador s ON (oe.id_status_id=s.id) INNER JOIN sds_operador o on (oe.id_operador_id=o.id) WHERE oe.comentario_extendido like "+com_ext+" and oe.id_status_id=%s and oe.fecha_inicio >=%s and oe.fecha_inicio<=%s;",(status,fecha_inicial,fecha_final))
+			cursor.execute("SELECT oe.id,o.nombre,o.ap_paterno,o.ap_materno,s.descripcion,oe.fecha_inicio,oe.Fecha_Terminal,oe.Comentario_extendido FROM sds_operadorevento oe INNER JOIN sds_statusdeoperador s ON (oe.id_status_id=s.id) INNER JOIN sds_operador o on (oe.id_operador_id=o.id) WHERE oe.comentario_extendido like %s and oe.id_status_id=%s and oe.fecha_inicio >=%s and oe.fecha_inicio<=%s;",("%"+com_ext+"%",status,fecha_inicial,fecha_final))
 		# si, no , no
 		if(operador is not '' and status is '' and comentario_extendido is ''):
 	
@@ -645,27 +652,20 @@ def busca_evento(request):
 		# si, no , si
 		if(operador is not '' and status is '' and comentario_extendido is not ''):
 	
-			cursor.execute("SELECT oe.id,o.nombre,o.ap_paterno,o.ap_materno,s.descripcion,oe.fecha_inicio,oe.Fecha_Terminal,oe.Comentario_extendido FROM sds_operadorevento oe INNER JOIN sds_statusdeoperador s ON (oe.id_status_id=s.id) INNER JOIN sds_operador o on (oe.id_operador_id=o.id) WHERE oe.id_operador_id=%s and oe.comentario_extendido like"+com_ext+" and oe.fecha_inicio >=%s and oe.fecha_inicio<=%s;",(operador,fecha_inicial,fecha_final))
+			cursor.execute("SELECT oe.id,o.nombre,o.ap_paterno,o.ap_materno,s.descripcion,oe.fecha_inicio,oe.Fecha_Terminal,oe.Comentario_extendido FROM sds_operadorevento oe INNER JOIN sds_statusdeoperador s ON (oe.id_status_id=s.id) INNER JOIN sds_operador o on (oe.id_operador_id=o.id) WHERE oe.id_operador_id=%s and oe.comentario_extendido like %s and oe.fecha_inicio >=%s and oe.fecha_inicio<=%s;",("%"+com_ext+"%",operador,fecha_inicial,fecha_final))
 		# si, si , no
 		if(operador is not '' and status is not '' and comentario_extendido is ''):
-			print("Entro en si,si no")
-	
+			
 			cursor.execute("SELECT oe.id,o.nombre,o.ap_paterno,o.ap_materno,s.descripcion,oe.fecha_inicio,oe.Fecha_Terminal,oe.Comentario_extendido FROM sds_operadorevento oe INNER JOIN sds_statusdeoperador s ON (oe.id_status_id=s.id) INNER JOIN sds_operador o on (oe.id_operador_id=o.id) WHERE oe.id_operador_id=%s and oe.id_status_id=%s and oe.fecha_inicio >=%s and oe.fecha_inicio<=%s;",(operador,status,fecha_inicial,fecha_final))
 
-			for c in cursor:
-				print (c)
+		# si, si , si
+		if(operador is not '' and status is not '' and comentario_extendido is not ''):
+			
+			cursor.execute("SELECT oe.id,o.nombre,o.ap_paterno,o.ap_materno,s.descripcion,oe.fecha_inicio,oe.Fecha_Terminal,oe.Comentario_extendido FROM sds_operadorevento oe INNER JOIN sds_statusdeoperador s ON (oe.id_status_id=s.id) INNER JOIN sds_operador o on (oe.id_operador_id=o.id) WHERE oe.id_operador_id=%s and oe.id_status_id=%s  and oe.comentario_extendido like %s and oe.fecha_inicio >=%s and oe.fecha_inicio<=%s;",(operador,status,"%"+com_ext+"%",fecha_inicial,fecha_final))	
 
-			#return HttpResponse(data,content_type='application/txt')
-
-
-
-
-
-		
-			#cursor.execute("SELECT oe.id,o.nombre,o.ap_paterno,o.ap_materno,s.descripcion,oe.fecha_inicio,oe.Fecha_Terminal,oe.Comentario_extendido FROM sds_operadorevento oe INNER JOIN sds_statusdeoperador s ON (oe.id_status_id=s.id) INNER JOIN sds_operador o on (oe.id_operador_id=o.id) WHERE oe.id_status_id="+status+" or oe.id_operador_id="+operador+" and oe.fecha_inicio >=%s and oe.fecha_inicio<=%s;",(fecha_inicial,fecha_final))
+			
 	l = dictfetchall(cursor)
-		#print ("paso el SELECT")
-	
+		
 	data= json.dumps(l,default=datetime_handler)
 				
 	return HttpResponse(data,content_type='application/json')
@@ -678,5 +678,5 @@ def eventos(request):
 
 	eventofiltro_form = EventoFiltroForm()
 	context={'consulta':True,'eventofiltro_form':eventofiltro_form}
-	print (eventofiltro_form)
+	#print (eventofiltro_form)
 	return render(request,'sds/filtra_eventos.html',context)
