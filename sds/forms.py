@@ -2,12 +2,12 @@ from django import forms
 #from bootstrap_date.widgets import DateTimePicker
 from datetime import datetime,date,time,timedelta
 from django.forms import ModelForm
-from sds.models import Operador, Caja, Unidad,TipoVisa, TipoUnidad, OperadorEvento,StatusDeOperador
+from sds.models import Operador, Caja, Unidad,TipoVisa, TipoCaja, TipoUnidad, OperadorEvento,StatusDeOperador
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import TabHolder, Tab
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit,Field,HTML,Div,Button
 import pdb
-
+from functools import partial
 
 class OperadorForm(ModelForm):
 	
@@ -98,6 +98,20 @@ class TipoVisaForm(ModelForm):
 			model = TipoVisa
 			fields = ['descripcion',]	
 
+class TipoCajaForm(ModelForm):
+		helper = FormHelper()
+		helper.form_tag = False
+		helper.form_class = 'form'
+		helper.layout = Layout( 
+					Fieldset('',
+						'descripcion', 
+						)
+					)
+		class Meta:
+			model = TipoCaja
+			fields = ['descripcion',]	
+
+
 class TipoUnidadForm(ModelForm):
 		helper = FormHelper()
 		helper.form_tag = False
@@ -130,6 +144,7 @@ class OperadorEventoForm(ModelForm):
 
 
 class EventoFiltroForm(forms.Form):
+	
 	operador  = forms.ModelChoiceField(initial='Todos',queryset=Operador.objects.only('ap_paterno','ap_materno','nombre','id').order_by('ap_paterno'),empty_label="(Todos)",required=False)
 	status = forms.ModelChoiceField(initial='Todos',queryset=StatusDeOperador.objects.all().order_by('descripcion'), empty_label="(Todos)",required=False)
 	fecha_inicio = forms.DateTimeField(initial=datetime.now())
@@ -141,13 +156,13 @@ class EventoFiltroForm(forms.Form):
 		self.helper.form_id = 'id-eventoFiltroForm'
 		self.helper.form_class = 'blueform'
 		self.helper.form_method = 'post'
-		self.helper.form_action = 'submit_survey'
+		#self.helper.form_action = 'submit_survey'
 		self.helper.layout = Layout(
 					Fieldset('Filtro',
 						'operador',        					
 						'status',
 						'fecha_inicio',
-						'fecha_final',
+						'fecha_final',						
 						'comentario_extendido',
 						HTML("""<div class="input-group">
                             

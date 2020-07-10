@@ -1,15 +1,14 @@
 from django.shortcuts import render,render_to_response
-from sds.models import Operador,Caja,Unidad,TipoVisa, TipoUnidad, OperadorEvento,StatusDeOperador
+from sds.models import Operador,Caja,Unidad,TipoVisa,TipoCaja,TipoUnidad, OperadorEvento,StatusDeOperador
 import pdb
 # Create your views here.
 from django.http import HttpResponse,HttpResponseRedirect
-from sds.forms import OperadorForm,CajaForm, UnidadForm,TipoVisaForm, TipoUnidadForm, OperadorEventoForm,EventoFiltroForm
+from sds.forms import OperadorForm,CajaForm, UnidadForm,TipoVisaForm, TipoUnidadForm, OperadorEventoForm, EventoFiltroForm,TipoCajaForm
 from django.core.urlresolvers import reverse
 from datetime import datetime,date,time,timedelta
 from django.db.models import Q
 import json
 from django.db import connection,DatabaseError,Error,transaction,IntegrityError
-
 
 
 def index(request):
@@ -55,9 +54,17 @@ def lista_tipodevisa(request):
 	consulta = TipoVisa.objects.order_by('descripcion')
 	return render(request,'sds/lista_tipodevisa.html',{'consulta':consulta,})
 
+
+
+
 def lista_tipodeunidad(request):
 	consulta = TipoUnidad.objects.order_by('descripcion')
 	return render(request,'sds/lista_tipodeunidad.html',{'consulta':consulta,})
+
+def lista_tipodecaja(request):
+	consulta = TipoCaja.objects.order_by('descripcion')
+	return render(request,'sds/lista_tipodecaja.html',{'consulta':consulta,})
+
 
 def busca_operador(request):
 	
@@ -445,6 +452,91 @@ def pregunta_eliminar_tipodevisa(request,id):
 	return render(request,'sds/pregunta_eliminar_tipodevisa.html',{'id':id})
 
 
+#### TIPOS DE CAJA
+
+def lista_tipodecaja(request):
+	consulta = TipoCaja.objects.order_by('descripcion')
+	return render(request,'sds/lista_tipodecaja.html',{'consulta':consulta,})
+
+def crea_tipodecaja(request):
+    # if this is a POST request we need to process the form data
+	if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+		form = TipoCajaForm(request.POST)
+        # check whether it's valid:
+		
+		if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+			
+			form.save()
+			return HttpResponseRedirect('sds/crea_tipodecaja/')
+		
+
+    # if a GET (or any other method) we'll create a blank form
+	else:
+		form = TipoCajaForm()
+	return render(request, 'sds/crea_tipodecaja.html', {'form': form})
+
+# MODIFICA TIPO DE CAJA
+
+def modifica_tipodecaja(request,id):
+
+	registro = Tipocaja.objects.get(pk=id) 
+
+    # if this is a POST request we need to process the form data
+	if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+
+		form = TipoCajaForm(request.POST)
+        # check whether it's valid:
+		
+		if form.is_valid():
+
+			# Asigna datos normalizados a nuevas varialbles:
+
+			descripcion = form.cleaned_data['descripcion']
+			
+			
+			
+			# Asigna a campos de registro valores de nuevas variables con contenidos normalizados:
+			# (observar como el campo id no se le asigna nada...de)
+
+			registro.descripcion = descripcion
+			
+			
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+			
+			registro.save()
+			
+			return HttpResponseRedirect('sds/lista_tipodecaja/')
+		
+
+    # if a GET (or any other method) we'll create a blank form
+	else:
+		form = TipoCajaForm(instance=registro)
+	return render(request, 'sds/modifica_tipodecaja.html', {'form': form})
+
+# ELIMINA TIPO DE CAJA
+
+def elimina_tipodecaja(request,id):
+
+	try:
+		registro = TipoCaja.objects.get(pk=id)
+		registro.delete()
+		return HttpResponseRedirect('sds/lista_tipodecaja')
+	except:
+		mensaje = " El registro en cuestion no fue encontrado en la base de datos, no se pudo completar la operacion  !"
+		return render(request,'sds/404.html',{ 'mensaje': mensaje})
+
+def pregunta_eliminar_tipodecaja(request,id):
+	return render(request,'sds/pregunta_eliminar_tipodecaja.html',{'id':id})
+
+
+
 #	****************  TIPO DE UNIDAD ************
 
 
@@ -599,7 +691,7 @@ def datetime_handler(x):
 def busca_evento(request):
 	print("aaqui entro")
 
-	pdb.set_trace()
+	#pdb.set_trace()
 	
 	operador = request.GET.get('operador_id',None)
 	status = request.GET.get('status_id',None)
@@ -628,7 +720,7 @@ def busca_evento(request):
 
 			print ("no, no no.")
 
-			l="Opcion invalida !"
+			l=cursor.execute("SELECT oe.id FROM sds_operadorevento oe WHERE oe.id=0;")
 
 		# no, no , si
 		
@@ -664,11 +756,11 @@ def busca_evento(request):
 			cursor.execute("SELECT oe.id,o.nombre,o.ap_paterno,o.ap_materno,s.descripcion,oe.fecha_inicio,oe.Fecha_Terminal,oe.Comentario_extendido FROM sds_operadorevento oe INNER JOIN sds_statusdeoperador s ON (oe.id_status_id=s.id) INNER JOIN sds_operador o on (oe.id_operador_id=o.id) WHERE oe.id_operador_id=%s and oe.id_status_id=%s  and oe.comentario_extendido like %s and oe.fecha_inicio >=%s and oe.fecha_inicio<=%s;",(operador,status,"%"+com_ext+"%",fecha_inicial,fecha_final))	
 
 			
-	l = dictfetchall(cursor)
+		l = dictfetchall(cursor)
 		
-	data= json.dumps(l,default=datetime_handler)
+		data= json.dumps(l,default=datetime_handler)
 				
-	return HttpResponse(data,content_type='application/json')
+		return HttpResponse(data,content_type='application/json')
 	
 	
 	

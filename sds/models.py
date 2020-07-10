@@ -115,6 +115,9 @@ class Operador(models.Model):
 		print(self.fecha_baja)
 		print(self.fecha_alta)
 		print(self.telefono_celular)
+
+		if self.fecha_alta is None:
+			raise ValidationError('Ingrese una fecha de alta !')
 		
 		if self.fecha_baja is not None:
 		
@@ -166,6 +169,16 @@ class TipoVisa(models.Model):
 	def save(self):	
 		self.descripcion = self.descripcion.upper()
 		super(TipoVisa,self).save()
+
+class TipoCaja(models.Model):
+	descripcion = models.CharField(max_length=40)
+
+	def __str__(self):
+		return(self.descripcion)
+
+	def save(self):	
+		self.descripcion = self.descripcion.upper()
+		super(TipoCaja,self).save()
 
 class OperadorEvento(models.Model):
 	id_operador = models.ForeignKey('Operador')

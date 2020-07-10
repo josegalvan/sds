@@ -1,8 +1,9 @@
 
 
     $(document).ready(function() {
-
-                    //alert("funciona !");
+            //alert("funciona !");
+            //$('#datepicker').datepicker();
+            //$('#datepicker').datepicker({uiLibrary: 'bootstrap4'});
             $('#busca_op').click(function(event){
                //alert("hola");
                 event.preventDefault();
@@ -62,7 +63,7 @@
                // alert(" Debe elegir un valor para operador o bien para status ( al menos uno de ellos) !");
                 //hayerror = 1;
                         //} 
-              //event.preventDefault();
+                event.preventDefault();
                    
 
                 alert("entra aqui");
@@ -73,15 +74,15 @@
                         type: 'GET',
                         data: {'operador_id':$('select[name=operador]').val(),'status_id':$('select[name=status]').val(),'fecha_inicial':$('#id_fecha_inicio').val(),'fecha_final':$('#id_fecha_final').val(),'comentario_extendido':$('#id_comentario_extendido').val()},
                         success: function(data,total_elementos) {
+                            alert("entro en success");
                             console.log(data);
-                            var tableData = ''
-
+                            var tableData 
                             $('tbody').empty(); // Borra tabla
 
                             if (data.length==0){
                                 alert("No se encontraron coincidencias !")
                             };
-                            tableData += "<tr><th>id_evento</th><th>Nombre_Operador</th><th>Status</th><th>Inicio el </th><th>Termina el</th></tr>"; // Dibuja encab
+                            tableData += "<tr><th>id_evento</th><th>Nombre_Operador</th><th>Status</th><th>Inicio el </th><th>Termina el</th><th>Comentario</th></tr>"; // Dibuja encab
                             //Ajax nos retorna en data un arreglo de arreglos..asi
                             // que primeramente "each(data....)" hace referecia a 
                             // cada arreglo dentro del arreglo y "value" nos trae
@@ -97,7 +98,7 @@
                                      tableData += '<td>' +value['descripcion']+ '</td>';
                                      tableData += '<td>' +value['fecha_inicio']+ '</td>';
                                      tableData += '<td>' +value['Fecha_Terminal']+'</td>';
-                                     
+                                     tableData += '<td>' +value['Comentario_extendido']+'</td>';
                                      
                                      
                                     tableData += '</tr>';
@@ -109,9 +110,11 @@
                         },
 
                         error: function(data) {
-                            console.log('error')
-                            console.log(data)
+                            alert("error en llamado ajax de filtrar eventos");
+                            console.log('error');
+                            console.log(data);
                         }
+                        
                 });
              })
 
